@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 // components
 import Box from "./Box";
 import ErrorMessage from "./ErrorMessage";
@@ -15,36 +15,18 @@ import WatchedSummary from "./WatchedSummary";
 import { useMovies } from "./useMovies";
 import { useLocalStorageState } from "./useLocalStorageState";
 
-const average = (arr) =>
-  arr.reduce((acc, cur, i, arr) => acc + cur / arr.length, 0);
+// const average = (arr) =>
+//   arr.reduce((acc, cur, i, arr) => acc + cur / arr.length, 0);
 
-const API_KEY = "43df423e";
+// const API_KEY = "43df423e";
 
 export default function App() {
   const [query, setQuery] = useState("");
-  // const [movies, setMovies] = useState([]);
-  // const [isLoading, setIsLoading] = useState(false);
-  // const [error, setError] = useState("");
+
   const [selectedId, setSelectedId] = useState(null);
-  //const [watched, setWatched] = useState([]);
 
-  // const [watched, setWatched] = useState(function () {
-  //   const storedValue = localStorage.getItem("watched");
-  //   //const storedValue = JSON.parse(localStorage.getItem("watched") || []
-  //   //return storedValue
-  //   return JSON.parse(storedValue);
-  // });
-
-  // custom hook
   const { movies, isLoading, error } = useMovies(query);
   const [watched, setWatched] = useLocalStorageState([], "watched");
-
-  // const [watched, setWatched] = useState(() => {
-  //   const storedValue = JSON.parse(localStorage.getItem("watched")) || [];
-  //   return storedValue;
-  // });
-
-  ///// FUNCTIONS
 
   function handleSelectMovie(id) {
     setSelectedId((selectedId) => (id === selectedId ? null : id));
@@ -56,21 +38,12 @@ export default function App() {
 
   function handleAddWatched(movie) {
     setWatched((watched) => [...watched, movie]);
-    // localStorage.setItem("watched", JSON.stringify([...watched, movie]));
   }
 
   function handleDeleteWatched(id) {
     setWatched((watched) => watched.filter((movie) => movie.imdbID !== id));
   }
 
-  // useEffect(
-  //   function () {
-  //     localStorage.setItem("watched", JSON.stringify(watched));
-  //   },
-  //   [watched]
-  // );
-
-  // useEffect(
   //   function () {
   //     const controller = new AbortController();
 
@@ -119,7 +92,6 @@ export default function App() {
       </NavBar>
       <Main>
         <Box>
-          {/* {isLoading ? <Loader /> : <MovieList movies={movies} />} */}
           {isLoading && <Loader />}
           {!isLoading && !error && (
             <MovieList movies={movies} onSelectMovie={handleSelectMovie} />
